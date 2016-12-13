@@ -1,0 +1,82 @@
+{% if user.type == "Student" %}{% extends 'rotas/base_user.html' %}
+{% else %}
+    {% extends 'rotas/base_admin.html' %}
+    {% block baradmin %}
+        {% if user.type == "Master" %}
+            <li><a href="/manage/admins"><i class="fa fa-users"></i> Admins</a></li>
+        {% endif %}
+        {% if user.type == "Master" or user.type == "Admin"%}
+            <li><a href="/manage/coordinators"><i class="fa fa-male"></i> Coordinators</a></li>
+        {% endif %}
+        {% if user.type == "Master" or user.type == "Admin" or user.type == "Coordinator" %}
+            <li><a href="/manage/secretaries"><i class="fa fa-street-view"></i> Secretaries</a></li>
+        {% endif %}
+    {% endblock %}
+    {% block barnav %}
+        {% if user.type == "Master" or user.type == "Admin"%}
+        <li><a href="/manage/stages"><i class="fa fa-shield"></i> Stages</a></li>
+        <li><a href="/manage/lessons"><i class="fa fa-bookmark"></i> Lessons</a></li>
+        <li><a href="/manage/conversations"><i class="fa fa-comments"></i> Conversations</a></li>
+        <li><a href="/manage/grammarspots"><i class="fa fa-quote-right"></i> Grammar Spots</a></li>
+        <li><a href="/manage/videoclasses"><i class="fa fa-video-camera"></i> Video Classes</a></li>
+        <li><a href="/manage/vocabularies"><i class="fa fa-sort-alpha-asc"></i> Vocabularies</a></li>
+        <li><a href="/manage/texts"><i class="fa fa-book"></i> Texts</a></li>
+        <li><a href="/manage/exercises"><i class="fa fa-star"></i> Exercises</a></li>
+        <li><a href="/manage/answers"><i class="fa fa-gavel"></i> Answers</a></li>
+        {% endif %}
+    {% endblock %}
+{% endif %}
+{% block main %}
+    <!--MAIN-->
+    <div class="container-fluid">
+        <div class="row">
+            <h2><i class="fa fa-cog fa-spin"></i> Student Profile</h2>
+            <hr/>
+        </div>
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                {% if success%}
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-success">{{ success }}</li>
+                    </ul>
+                {% endif %}
+                <form action="/student/update_profile/{{ student_id }}" method="post">
+                    <p><input type="text" class="form-control input-lg" placeholder="Full Name" name="fullname" value="{% if profile.fullname %}{{ profile.fullname }}{% endif %}" autofocus></p>
+                    <p><input type="text" class="form-control input-lg" placeholder="RG" name="rg" value="{% if profile.rg %}{{ profile.rg }}{% endif %}"></p>
+                    <p><input type="text" class="form-control input-lg" placeholder="CPF" name="cpf" value="{% if profile.cpf %}{{ profile.cpf }}{% endif %}"></p>
+                    <p>
+                        <select class="form-control input-lg" name="country">
+                            <option>Country</option>
+                            {% for country in countries %}
+                                {% if country == profile.country %} <option selected="selected">{{ country }}</option>
+                                {% else %} <option>{{ country }}</option>{% endif %}
+                            {% endfor %}
+                        </select>
+                    </p>
+                    <p><input type="text" class="form-control input-lg" placeholder="School" name="school" value="{% if profile.school %}{{ profile.school }}{% endif %}"></p>
+                    <p><input type="text" class="form-control input-lg" placeholder="Company" name="company" value="{% if profile.company %}{{ profile.company }}{% endif %}"></p>
+                    <p><input type="text" class="form-control input-lg" placeholder="CEP" name="cep" id="cep" onblur="pesquisacep(this.value);" value="{% if profile.cep %}{{ profile.cep }}{% endif %}"></p>
+                    <p><input type="text" class="form-control input-lg" placeholder="Address" name="address" id="rua" value="{% if profile.address %}{{ profile.address }}{% endif %}"></p>
+                    <p><input type="text" class="form-control input-lg" placeholder="Number" name="number" id="numero" value="{% if profile.number %}{{ profile.number }}{% endif %}"></p>
+                    <p><input type="text" class="form-control input-lg" placeholder="Complement" name="complement" value="{% if profile.complement %}{{ profile.complement }}{% endif %}"></p>
+                    <p><input type="text" class="form-control input-lg" placeholder="Neighborhood" name="neighborhood" id="bairro" value="{% if profile.neighborhood %}{{ profile.neighborhood }}{% endif %}"></p>
+                    <p><input type="text" class="form-control input-lg" placeholder="City" name="city" id="cidade" value="{% if profile.city %}{{ profile.city }}{% endif %}"></p>
+                    <p><input type="text" class="form-control input-lg" placeholder="State" name="state" id="uf" value="{% if profile.state %}{{ profile.state }}{% endif %}"></p>
+                    <p><input type="text" class="form-control input-lg" placeholder="Phone number" name="phone" value="{% if profile.phone %}{{ profile.phone }}{% endif %}"></p>
+                    <p><input type="text" class="form-control input-lg" placeholder="Cell phone number" name="cell" value="{% if profile.cell %}{{ profile.cell }}{% endif %}"></p>
+
+                    {% if user.type != "Student"%}
+                    <p><input type="text" class="form-control input-lg" placeholder="Dia de Pagamento" name="pay_day" value="{% if profile.pay_day %}{{ profile.pay_day }}{% else %}10{% endif %}"></p>
+                    <p><input type="text" class="form-control input-lg" placeholder="Valor de Mensalidade" name="pay_value" value="{% if profile.pay_value %}{{ profile.pay_value }}{% else %}170.00{% endif %}"></p>
+                    {% endif %}
+
+
+                    <p align="center"><button class="btn btn-success btn-lg" type="submit"><i class="fa fa-check"> </i> Save</button></p>
+                </form>
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+    </div>
+    <!--MAIN-->
+{% endblock %}

@@ -1,0 +1,92 @@
+{% extends 'rotas/base_user.html' %}
+{% block navbar %}
+    <li><a href="/stages/{{ id_course }}" title="Stages"><i class="fa fa-shield"></i> Stages</a></li>
+    <li><a href="/lessons/{{ lesson.stage.id }}" title="Lessons"><i class="fa fa-bookmark"></i> Lessons</a></li>
+    <li><a href="/exercises/{{ lesson.id }}" title="Exercises"><i class="fa fa-star"></i> Exercises</a></li>
+    <li><a href="/grammarspots" title="Grammar Spots"><i class="fa fa-quote-right"></i> Grammar Spots</a></li>
+    <li><a href="/videoclasses" title="Video Classes"><i class="fa fa-video-camera"></i> Video Classes</a></li>
+    <li><a href="/vocabularies" title="Vocabularies"><i class="fa fa-sort-alpha-asc"></i> Vocabularies</a></li>
+    <li role="separator" class="divider"></li>
+{% endblock %}
+{#{% block course %}#}
+{#    <li><a href="/stages/{{ id_course }}" title="Stages"><i class="fa fa-shield"></i> Stages</a></li>#}
+{#{% endblock %}#}
+{% block main %}
+    <!--MAIN-->
+    <div class="container-fluid section col-md-8">
+        <div class="row text-center">
+            <p align="center"><img src="/static/img/icon/grammarspot.png" class="img img-responsive icone-small" alt=""></p>
+            <hr/>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <br>
+                <div class="row fit">
+                    {% for grammarspot in grammarspots %}
+                        <p><h2>{{ grammarspot.title }}</h2></p>
+                        <hr>
+                        {% set grammars = grammarspot.description %}
+                        {% set gs = grammars.split('\n') %}
+                        {% for g in gs %}
+                            <p><h4>{{ g }}</h4></p>
+                        {% endfor %}
+                        <br>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid col-md-3 col-md-offset-1">
+        <div class="row section">
+            <p align="center"><img src="/static/img/icon/{{ user.avatar }}.png" class="img img-responsive icone-block" alt=""></p>
+            <table class="table table-responsive" align="center">
+                <tr>
+                    <th>
+                        user:
+                    </th>
+                    <td>
+                        {{ user.username }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        email:
+                    </th>
+                    <td>
+                        {{ user.email }}
+                    </td>
+                </tr>
+            </table>
+            <p align="center"><a href="/user_setting/account" class="btn btn-success">update account</a></p>
+        </div>
+        <div class="row section">
+            <p align="center"><img src="/static/img/icon/ranking.png" class="img img-responsive icone-block" alt=""></p>
+            <p align="center"><b>level:</b> {{ level }}</p>
+            <p align="center"><a href="/ranking" class="btn btn-warning">ranking</a></p>
+        </div>
+        <div class="row section">
+            <p align="center"><img src="/static/img/icon/payments.png" class="img img-responsive icone-block" alt=""></p>
+            <p align="center">
+                {% if due != '' %}<b>due date:</b> {{ due }}
+                {% else %}<b>no payments</b>{% endif %}
+            </p>
+            <p align="center"><a href="/payments" class="btn btn-success">check payment</a></p>
+        </div>
+        <br>
+        <div class="box-red text-center">
+            <p>Follow us</p>
+            <ul class="list-inline social-buttons">
+                <li><img src="/static/img/icon/twitter.png" class="img img-responsive icone icone-btn" onclick='href("https://twitter.com/PlayaEnglish")'>
+                </li>
+                <li><img src="/static/img/icon/facebook.png" class="img img-responsive icone icone-btn" onclick='href("https://www.facebook.com/Playa-school-441521289292037/?fref=ts")'>
+                </li>
+                <li><img src="/static/img/icon/youtube.png" class="img img-responsive icone icone-btn" onclick='href("http://www.youtube.com/PlayaSJC")'>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--MAIN-->
+{% endblock %}
+{% block js %}
+
+{% endblock %}

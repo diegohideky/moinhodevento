@@ -1,0 +1,49 @@
+{% extends 'rotas/base_user.html' %}
+{% block main %}
+    <!--MAIN-->
+    <div class="container-fluid section">
+        <div class="row">
+            <p align="center"><img src="/static/img/icon/payments.png" class="img img-responsive icone-small" alt=""></p>
+            <hr/>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <br>
+                <div class="row fit">
+                    <div class="col-3-sm">
+                        <form action="">
+                            <input type="text" class="form-control input" placeholder="Search" name="search">
+                        </form>
+                    </div>
+                </div>
+                <br>
+                <div class="row fit">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Description</th>
+                                <th>Value</th>
+                                <th>Date</th>
+                                <th>Due Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for payment in payments %}
+                            <tr method="post">
+                                <td>{{ payment['description'] }}</td>
+                                <td>{{ payment['value'] }}</td>
+                                <td>{{ payment['date'] }}</td>
+                                <td><strong>{{ payment['due'] }}</strong></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--MAIN-->
+{% endblock %}
+{% block js %}
+
+{% endblock %}

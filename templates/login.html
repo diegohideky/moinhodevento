@@ -1,0 +1,31 @@
+{% extends 'rotas/base_home.html' %}
+{% block main %}
+    <!--MAIN-->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4 text-center">
+                <div class="section">
+                        <p align="center"><img src="/static/img/icon/playa.png" class="img img-responsive icone-block" alt=""></p>
+                        <p> <h1>Playa Ebook</h1> </p>
+                        <form action="" method="post">
+                            <p><input type="text" class="form-control input-lg" placeholder="Usuario ou Email" name="username" value="{{ request.form.username }}" autofocus></p>
+                            <p><input type="password" class="form-control input-lg" placeholder="Senha" name="password" value="{{ request.form.password }}"></p>
+                            <p align="center"><button class="btn btn-primary btn-lg" type="submit">Login</button></p>
+                        </form>
+                        <a href="/signin"><i class="fa fa-sign-in"></i> criar uma nova conta</a>
+                </div>
+                {% if error %}
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-danger"><strong>Sorry!</strong> {{ error }}</li>
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+    <!--MAIN-->
+{% endblock %}
+{% block js %}
+
+{% endblock %}

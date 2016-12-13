@@ -1,0 +1,114 @@
+{% extends 'rotas/base_admin.html' %}
+{% block baradmin %}
+    {% if user.type == "Master" %}
+        <li><a href="/manage/admins"><i class="fa fa-users"></i> Admins</a></li>
+    {% endif %}
+    {% if user.type == "Master" or user.type == "Admin"%}
+        <li><a href="/manage/coordinators"><i class="fa fa-male"></i> Coordinators</a></li>
+    {% endif %}
+    {% if user.type == "Master" or user.type == "Admin" or user.type == "Coordinator" %}
+        <li><a href="/manage/secretaries"><i class="fa fa-street-view"></i> Secretaries</a></li>
+    {% endif %}
+{% endblock %}
+{% block barnav %}
+    {% if user.type == "Master" or user.type == "Admin"%}
+    <li><a href="/manage/stages"><i class="fa fa-shield"></i> Stages</a></li>
+    <li><a href="/manage/lessons"><i class="fa fa-bookmark"></i> Lessons</a></li>
+    <li><a href="/manage/conversations"><i class="fa fa-comments"></i> Conversations</a></li>
+    <li><a href="/manage/grammarspots"><i class="fa fa-quote-right"></i> Grammar Spots</a></li>
+    <li><a href="/manage/videoclasses"><i class="fa fa-video-camera"></i> Video Classes</a></li>
+    <li><a href="/manage/vocabularies"><i class="fa fa-sort-alpha-asc"></i> Vocabularies</a></li>
+    <li><a href="/manage/texts"><i class="fa fa-book"></i> Texts</a></li>
+    <li><a href="/manage/exercises"><i class="fa fa-star"></i> Exercises</a></li>
+    <li><a href="/manage/answers"><i class="fa fa-gavel"></i> Answers</a></li>
+    {% endif %}
+{% endblock %}
+{% block main %}
+    <!--MAIN-->
+    <div class="container-fluid">
+        <div class="row">
+            <h2><i class="fa fa-comments fa-2x"></i> Conversations</h2>
+            <hr/>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <a href="/conversation/new" class="btn btn-primary"><i class="fa fa-plus"></i> Conversation</a>
+                    <a href="/manage/conversations" class="btn btn-success"><i class="fa fa-refresh"></i> Conversations</a>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-3-sm">
+                        <form action="/conversation/search">
+                            <input type="text" class="form-control input" placeholder="Search by question or lesson" name="search">
+                        </form>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Lesson</th>
+                                <th>Question</th>
+                                {% if user.type == "Master" or user.type == "Admin" or user.type == "Teacher" %}<th></th>{% endif %}
+                                {% if user.type == "Master"%}<th></th>{% endif %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for conversation in conversations %}
+                            <tr method="post">
+                                <td>{{ conversation.id }}</td>
+                                <td>{{ conversation.lesson.title }}</td>
+                                <td>{{ conversation.question }}</td>
+                                {% if user.type == "Master" or user.type == "Admin" or user.type == "Teacher" %}
+                                <td>
+                                    <a href="/conversation/edit/{{ conversation.id }}" class="btn btn-sm btn-warning" name="edit" title="Edit">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                </td>
+                                {% endif %}
+                                {% if user.type == "Master" %}
+                                <td>
+                                    <a class="btn btn-sm btn-danger" name="delete" id="delete{{ conversation.id }}" title="Delete" onclick="review({{ conversation.id }})">
+                                         <i class="fa fa-trash"></i>
+                                    </a>
+                                    <a class="btn btn-sm btn-success hidden" title="Confirm" id="confirm{{ conversation.id }}" onclick="confirm('/conversation/delete/{{ conversation.id }}')">
+                                        <i class="fa fa-check"></i>
+                                    </a>
+                                    <a class="btn btn-sm btn-primary hidden" title="Cancel" id="cancel{{ conversation.id }}" onclick="cancel({{ conversation.id }})">
+                                        <i class="fa fa-remove"></i>
+                                    </a>
+                                </td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% if pages and pages > 1 %}
+                <div class="row">
+                    <ul class="pagination">
+                        {% if active > 1 %}<li><a href="/manage/conversations/1" title="First"><i class="fa fa-angle-double-left"></i></a></li>
+                        <li><a href="/manage/conversations/{{ active - 1 }}" title="Previous"><i class="fa fa-angle-left"></i></a></li>{% endif %}
+                        {% for i in range( index, index + 10) %}
+                            {% if i <= pages %}
+                            <li  class="{% if active == i %}active{% endif %}">
+                                <a href="/manage/conversations/{{ i }}">{{ i }}</a>
+                            </li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if active < pages %}<li><a href="/manage/conversations/{{ active + 1 }}" title="Next"><i class="fa fa-angle-right"></i></a></li>
+                        <li><a href="/manage/conversations/{{ pages }}" title="Last"><i class="fa fa-angle-double-right"></i></a></li>{% endif %}
+                    </ul>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <!--MAIN-->
+{% endblock %}
+{% block js %}
+
+{% endblock %}

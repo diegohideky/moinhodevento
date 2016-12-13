@@ -1,0 +1,70 @@
+{% extends 'rotas/base_user.html' %}
+{% block main %}
+    <!--MAIN-->
+    <div class="container-fluid section col-md-8">
+        <div class="row">
+            <p align="center"><img src="/static/img/icon/playa.png" class="img img-responsive icone-small" alt=""/></p>
+            <hr/>
+        </div>
+        <div class="row">
+        {% set imagem = 'english.png' %}
+            {% for course in courses %}
+                <div class="col-md-3">
+                    <p align="center">
+                        {% if course.title == 'English' %}{% set imagem = 'english.png' %}
+                        {% else %}{% set imagem = 'spain.png' %}{% endif %}
+                        <img class="img img-responsive icone" src="/static/img/icon/{{ imagem }}" alt="" onclick='href("/stages/{{ course.id }}")'>
+                        <p><b><h5 align="center">{{ course.title }}</h5></b></p>
+                    </p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="container-fluid col-md-3 col-md-offset-1">
+        <div class="row section">
+            <p align="center"><img src="/static/img/icon/{{ user.avatar }}.png" class="img img-responsive icone-block" alt=""></p>
+            <table class="table table-responsive" align="center">
+                <tr>
+                    <th>
+                        user:
+                    </th>
+                    <td>
+                        {{ user.username }}
+                    </td>
+
+                </tr>
+                <tr>
+                    <th>
+                        email:
+                    </th>
+                    <td>
+                        {{ user.email }}
+                    </td>
+                </tr>
+            </table>
+            <p align="center"><a href="/user_setting/account" class="btn btn-success">update account</a></p>
+        </div>
+        <div class="row section">
+            <p align="center"><img src="/static/img/icon/payments.png" class="img img-responsive icone-block" alt=""></p>
+            <p align="center">
+                {% if due != '' %}<b>due date:</b> {{ due }}
+                {% else %}<b>no payments</b>{% endif %}
+            </p>
+            <p align="center"><a href="/payments" class="btn btn-success">check payment</a></p>
+        </div>
+        <br>
+        <div class="box-red text-center">
+            <p>Follow us</p>
+            <ul class="list-inline social-buttons">
+                <li><img src="/static/img/icon/twitter.png" class="img img-responsive icone icone-btn" onclick='href("https://twitter.com/PlayaEnglish")'>
+                </li>
+                <li><img src="/static/img/icon/facebook.png" class="img img-responsive icone icone-btn" onclick='href("https://www.facebook.com/Playa-school-441521289292037/?fref=ts")'>
+                </li>
+                <li><img src="/static/img/icon/youtube.png" class="img img-responsive icone icone-btn" onclick='href("http://www.youtube.com/PlayaSJC")'>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!--MAIN-->
+{% endblock %}

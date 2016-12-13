@@ -1,0 +1,66 @@
+{% extends 'rotas/base_admin.html' %}
+{% block baradmin %}
+    {% if user.type == "Master" %}
+        <li><a href="/manage/admins"><i class="fa fa-users"></i> Admins</a></li>
+    {% endif %}
+    {% if user.type == "Master" or user.type == "Admin"%}
+        <li><a href="/manage/coordinators"><i class="fa fa-male"></i> Coordinators</a></li>
+    {% endif %}
+    {% if user.type == "Master" or user.type == "Admin" or user.type == "Coordinator" %}
+        <li><a href="/manage/secretaries"><i class="fa fa-street-view"></i> Secretaries</a></li>
+    {% endif %}
+{% endblock %}
+{% block barnav %}
+    {% if user.type == "Master" or user.type == "Admin"%}
+    <li><a href="/manage/courses"><i class="fa fa-courses"></i> Courses</a></li>
+    <li><a href="/manage/stages"><i class="fa fa-shield"></i> Stages</a></li>
+    <li><a href="/manage/lessons"><i class="fa fa-bookmark"></i> Lessons</a></li>
+    <li><a href="/manage/conversations"><i class="fa fa-comments"></i> Conversations</a></li>
+    <li><a href="/manage/grammarspots"><i class="fa fa-quote-right"></i> Grammar Spots</a></li>
+    <li><a href="/manage/videoclasses"><i class="fa fa-video-camera"></i> Video Classes</a></li>
+    <li><a href="/manage/vocabularies"><i class="fa fa-sort-alpha-asc"></i> Vocabularies</a></li>
+    <li><a href="/manage/texts"><i class="fa fa-book"></i> Texts</a></li>
+    <li><a href="/manage/exercises"><i class="fa fa-star"></i> Exercises</a></li>
+    <li><a href="/manage/answers"><i class="fa fa-gavel"></i> Answers</a></li>
+    {% endif %}
+{% endblock %}
+{% block main %}
+    <!--MAIN-->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        {% if exist %}
+                            <ul class="list-group">
+                                <li class="list-group-item list-group-item-danger"><strong>{{ exist }}</strong> already exists!</li>
+                            </ul>
+                        {% endif %}
+                        <p align="center"> <h1>Insert Stage</h1> </p>
+                        <form action="/stage/insert" method="post">
+                            <p><input type="text" class="form-control input-lg" placeholder="Title" name="title" autofocus></p>
+                            <p>
+                                <select class="form-control input-lg" name="course">
+                                    {% for course in courses %}
+                                        <option>{{ course.title }}</option>
+                                    {% endfor %}
+                                </select>
+                            </p>
+                            <p align="center"><button class="btn btn-success btn-lg" type="submit">
+                                <i class="fa fa-check"></i> Save</button>
+                            </p>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+            </div>
+        </div>
+    </div>
+    <!--MAIN-->
+{% endblock %}
+{% block js %}
+
+{% endblock %}

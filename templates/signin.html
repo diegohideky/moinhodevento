@@ -1,0 +1,46 @@
+{% extends 'rotas/base_home.html' %}
+{% block main %}
+    <!--MAIN-->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <div class="section">
+                    <p align="center"><img src="/static/img/icon/playa.png" id="avatar" class="img img-responsive icone-block" alt=""></p>
+                    <p align="center"> <h1>Criar nova conta</h1> </p>
+                    <form action="/create_account" method="post">
+                        <p><input type="text" class="form-control input-lg" placeholder="Usuario" name="username"  value="{{ request.form.username }}" autofocus></p>
+                        {% if e_username %} <ul class="list-group">
+                            <li class="list-group-item list-group-item-danger">{{ e_username }} </li>
+                        </ul>{% endif %}
+                        <p><input type="text" class="form-control input-lg" placeholder="Email" name="email"  value="{{ request.form.email }}"></p>
+                        {% if e_email %} <ul class="list-group">
+                            <li class="list-group-item list-group-item-danger"> {{ e_email }} </li>
+                        </ul>{% endif %}
+                        <p><input type="password" class="form-control input-lg" placeholder="Senha" name="password"></p>
+                        <p><input type="password" class="form-control input-lg" placeholder="Repita senha" name="repeat_password"></p>
+                        {% if e_password %} <ul class="list-group">
+                            <li class="list-group-item list-group-item-danger"> {{ e_password }} </li>
+                        </ul>{% endif %}
+                        <p>
+                            <select name="avatar" id="select_avatar" class="form-control input-lg" onchange="show_avatar()">
+                                <option>Choose your avatar</option>
+                                {% for avatar in avatars %}
+                                    <option>{{ avatar }}</option>
+                                {% endfor %}
+                            </select>
+                        </p>
+                        <p align="center"><input class="btn btn-success btn-lg" type="submit" value="Sign in"></p>
+                    </form>
+                    {% if e %}{{ e }}{% endif %}
+                </div>
+            </div>
+            <div class="col-md-4">
+            </div>
+        </div>
+    </div>
+    <!--MAIN-->
+{% endblock %}
+{% block js %}
+
+{% endblock %}

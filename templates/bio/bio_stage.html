@@ -1,0 +1,111 @@
+{% extends 'rotas/base_user.html' %}
+
+{% block chart %}
+	<script type="text/javascript">
+	window.onload = function () {
+		var chart = new CanvasJS.Chart("chartContainer",
+		{
+			title:{
+				text: "Exercises of {{ stage }}"
+			},
+                        animationEnabled: true,
+			theme: "theme2",
+			data: [
+			{
+				type: "doughnut",
+				indexLabelFontFamily: "Garamond",
+				indexLabelFontSize: 20,
+				startAngle:0,
+				indexLabelFontColor: "dimgrey",
+				indexLabelLineColor: "darkgrey",
+				toolTipContent: "{y} %",
+
+				dataPoints: [
+                        {% for chart in charts %}
+                            {  y: {{ chart['percentage'] }}, indexLabel: "{{ chart['type'] }}: {{ chart['score'] }}" },
+                        {% endfor %}
+				]
+			}
+			]
+		});
+
+        chart.render();
+
+        var chartall = new CanvasJS.Chart("chartAllContainer",
+		{
+			title:{
+				text: "Lessons"
+			},
+                        animationEnabled: true,
+			theme: "theme2",
+			data: [
+			{
+				type: "doughnut",
+				indexLabelFontFamily: "Garamond",
+				indexLabelFontSize: 20,
+				startAngle:0,
+				indexLabelFontColor: "dimgrey",
+				indexLabelLineColor: "darkgrey",
+				toolTipContent: "{y} %",
+
+				dataPoints: [
+                        {% for allchart in allcharts %}
+                            {  y: {{ allchart['percentage'] }}, indexLabel: "{{ allchart['lesson'] }}: {{ allchart['score'] }}" },
+                        {% endfor %}
+				]
+			}
+			]
+		});
+
+        chartall.render();
+
+        var progress = new CanvasJS.Chart("progressContainer",
+        {
+            title:{
+                text: "Progress"
+            },
+            exportFileName: "Pie Chart",
+            exportEnabled: true,
+                    animationEnabled: true,
+            legend:{
+                verticalAlign: "bottom",
+                horizontalAlign: "center"
+            },
+            data: [
+            {
+                type: "pie",
+                showInLegend: true,
+                toolTipContent: "{legendText}: <strong>{y}%</strong>",
+                indexLabel: "{label} {y}%",
+                dataPoints: [
+                    { y: {{progress[0]}}, legendText: "Complete", exploded: true, label: "Complete" },
+                    { y: {{progress[1]}}, legendText: "Incomplete", label: "Incomplete" }
+                ]
+        }
+        ]
+        });
+        progress.render();
+	}
+	</script>
+	<script type="text/javascript" src="/static/js/canvasjs.min.js"></script>
+{% endblock %}
+{% block main %}
+        <div class="panel panel-danger">
+            <div class="panel-heading"><i class="fa fa-heart"></i> {{ student.username }}</div>
+             <div class="panel-body">
+                <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+                 <hr/>
+                <div id="chartAllContainer" style="height: 300px; width: 100%;"></div>
+                 <hr/>
+                <div id="progressContainer" style="height: 300px; width: 100%;"></div>
+            </div>
+            <div class="panel-footer">
+                 <select class="form-control" name="lesson" id="lesson" onchange="bio_lesson('{{ student.id }}','{{ stage }}')">
+                    <option>Choose the lesson</option>
+                    {% for lesson in lessons %}
+                        <option>{{ lesson.title }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+{% endblock %}

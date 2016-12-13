@@ -1,0 +1,87 @@
+{% extends 'rotas/base_user.html' %}
+{% block course %}
+{#    <li><a href="/stages/{{ id_course }}" title="Stages"><i class="fa fa-shield"></i> Stages</a></li>#}
+{% endblock %}
+{% block navbar %}
+    <li><a href="/stages/{{ id_course }}" title="Stages"><i class="fa fa-shield"></i> Stages</a></li>
+    <li role="separator" class="divider"></li>
+{% endblock %}
+{% block main %}
+    <!--MAIN-->
+    <div class="container-fluid section col-md-8">
+        <div class="row text-center">
+            <p align="center"><img src="/static/img/icon/stage.png" class="img img-responsive icone-small" alt=""></p>
+            <hr/>
+        </div>
+        {% if today %}
+            <ul class="list-group">
+                <li class="list-group-item list-group-item-warning"><strong>Pay Attention!</strong> {{ today }}</li>
+            </ul>
+        {% endif %}
+        {% if error %}
+            <ul class="list-group">
+                <li class="list-group-item list-group-item-danger"><strong>Sorry!</strong> {{ error }}</li>
+            </ul>
+        {% endif %}
+        <div class="row">
+            {% for stage in stages %}
+                <div class="col-md-3">
+                    <p align="center">
+                        <img src="/static/img/icon/{{ stage.title }}.png" class="img img-responsive icone" alt="" onclick='href("/lessons/{{ stage.id }}")'>
+                    </p>
+                    <p><b><h5 align="center">{{ stage.title }}</h5></b></p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="container-fluid col-md-3 col-md-offset-1">
+        <div class="row section">
+            <p align="center"><img src="/static/img/icon/{{ user.avatar }}.png" class="img img-responsive icone-block" alt=""></p>
+            <table class="table table-responsive" align="center">
+                <tr>
+                    <th>
+                        user:
+                    </th>
+                    <td>
+                        {{ user.username }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        email:
+                    </th>
+                    <td>
+                        {{ user.email }}
+                    </td>
+                </tr>
+            </table>
+            <p align="center"><a href="/user_setting/account" class="btn btn-success">update account</a></p>
+        </div>
+        <div class="row section">
+            <p align="center"><img src="/static/img/icon/ranking.png" class="img img-responsive icone-block" alt=""></p>
+            <p align="center"><b>level:</b> {{ level }}</p>
+            <p align="center"><a href="/ranking" class="btn btn-warning">ranking</a></p>
+        </div>
+        <div class="row section">
+            <p align="center"><img src="/static/img/icon/payments.png" class="img img-responsive icone-block" alt=""></p>
+            <p align="center">
+                {% if due != '' %}<b>due date:</b> {{ due }}
+                {% else %}<b>no payments</b>{% endif %}
+            </p>
+            <p align="center"><a href="/payments" class="btn btn-success">check payment</a></p>
+        </div>
+        <br>
+        <div class="box-red text-center">
+            <p>Follow us</p>
+            <ul class="list-inline social-buttons">
+                <li><img src="/static/img/icon/twitter.png" class="img img-responsive icone icone-btn" onclick='href("https://twitter.com/PlayaEnglish")'>
+                </li>
+                <li><img src="/static/img/icon/facebook.png" class="img img-responsive icone icone-btn" onclick='href("https://www.facebook.com/Playa-school-441521289292037/?fref=ts")'>
+                </li>
+                <li><img src="/static/img/icon/youtube.png" class="img img-responsive icone icone-btn" onclick='href("http://www.youtube.com/PlayaSJC")'>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--MAIN-->
+{% endblock %}

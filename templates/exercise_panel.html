@@ -1,0 +1,63 @@
+{% extends 'rotas/base_user.html' %}
+{% block navbar %}
+    <li><a href="/stages/{{ id_course }}" title="Stages"><i class="fa fa-shield"></i> Stages</a></li>
+    <li><a href="/lessons/{{ lesson.stage.id }}" title="Lessons"><i class="fa fa-bookmark"></i> Lessons</a></li>
+    <li><a href="/exercises/{{ lesson.id }}" title="Exercises"><i class="fa fa-star"></i> Exercises</a></li>
+    <li><a href="/grammarspots" title="Grammar Spots"><i class="fa fa-quote-right"></i> Grammar Spots</a></li>
+    <li><a href="/videoclasses" title="Video Classes"><i class="fa fa-video-camera"></i> Video Classes</a></li>
+    <li><a href="/vocabularies" title="Vocabularies"><i class="fa fa-sort-alpha-asc"></i> Vocabularies</a></li>
+    <li role="separator" class="divider"></li>
+{% endblock %}
+{#{% block course %}#}
+{#    <li><a href="/stages/{{ id_course }}" title="Stages"><i class="fa fa-shield"></i> Stages</a></li>#}
+{#{% endblock %}#}
+{% block main %}
+    <!--MAIN-->
+    <div class="container-fluid">
+        <div class="row text-center">
+            {#            <p>{{ users.username }}</p>#}
+            <h2><i class="fa fa-star fa-2x"></i> Exercises Panel</h2>
+            <hr/>
+        </div>
+        <div class="row">
+            {% if error %}
+                <ul class="list-group">
+                    <li class="list-group-item list-group-item-danger"><strong>Sorry!</strong> {{ error }}</li>
+                </ul>
+            {% endif %}
+            {% for exercise in exercises %}
+                <div class="col-md-12 section text-center">
+                    <p><h3> <b>{{ exercise['title'] }} </b></h3></p>
+                    {% if exercise['img'] %}
+                        <p align="center"><img src="{{ exercise.img }}" height="200px" width="200px" class="img-responsive" alt=""></p>
+                    {% endif %}
+                    {% if type != 'listening' %}
+                        <p><h2> {{ exercise['desc'] }} </h2></p>
+                    {% else %}
+                        <p><button type="submit" class="btn btn-circle btn-huge btn-info " onclick='listen("{{ exercise['desc'] }}", 1.0)'><i class="fa fa-headphones"></i></button>
+                            <button type="submit" class="btn btn-circle btn-lg btn-info" onclick='listen("{{ exercise['desc'] }}", 0.5)'><i class="fa fa-headphones"></i></button></p>
+                    {% endif %}
+                    <p align="center"><a href="/exercises/{{ type }}/{{ exercise['id'] }}" target="_blank" class="btn btn-primary btn-long">do it</a></p>
+                </div>
+            {% endfor %}
+        </div>
+        {% if pages > 1 %}
+            <div class="row">
+                <ul class="pagination">
+                    {% if active > 1 %}<li><a href="/panel/exercises/{{ type }}/1" title="First"><i class="fa fa-angle-double-left"></i></a></li>
+                        <li><a href="/panel/exercises/{{ type }}/{{ active - 1 }}" title="Previous"><i class="fa fa-angle-left"></i></a></li>{% endif %}
+                    {% for i in range(index, index + 10) %}
+                        {% if i <= pages %}
+                            <li  class="{% if active == i %}active{% endif %}">
+                                <a href="/panel/exercises/{{ type }}/{{ i }}">{{ i }}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if active < pages %}<li><a href="/panel/exercises/{{ type }}/{{ active + 1 }}" title="Next"><i class="fa fa-angle-right"></i></a></li>
+                        <li><a href="/panel/exercises/{{ type }}/{{ pages }}" title="Last"><i class="fa fa-angle-double-right"></i></a></li>{% endif %}
+                </ul>
+            </div>
+        {% endif %}
+    </div>
+    <!--MAIN-->
+{% endblock %}

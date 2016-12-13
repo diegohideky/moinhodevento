@@ -1,0 +1,53 @@
+{% extends 'rotas/base_user.html' %}
+{% block main %}
+    <!--MAIN-->
+    <div class="container-fluid">
+        <div class="col-md-6 col-md-offset-3 section">
+            {% if error %}
+                <ul class="list-group">
+                    <li class="list-group-item list-group-item-danger"><strong>Desculpa!</strong> {{ error }}</li>
+                </ul>
+            {% endif %}
+
+            {% set valor = "99.90" %}
+
+            <div class="row text-center">
+                <p align="center">
+                    <img src="/static/img/icon/{{ stage.title }}.png" class="img img-responsive icone-block" alt="" style="opacity: 1">
+                <p><h3 align="center">{{ stage.title }}</h3></p>
+
+                <form action="https://pagseguro.uol.com.br/v2/checkout/payment.html" method="post" target="pagseguro">
+                    <input type="hidden" name="receiverEmail" value="playasjc@gmail.com">
+                    <input type="hidden" name="currency" value="BRL">
+
+                    <h1 style="color: red;">até 18x R$ 7,26</h1>
+                    <h5>(à vista) R$ 99,90</h5>
+
+                    <input name="itemId1" type="hidden" value="0001">
+                    <input name="itemDescription1" type="hidden" value={% if stage.title == "Stage 1" %} "Stage 1" {% elif stage.title == "Stage 2" %} "Stage 2" {% elif stage.title == "Stage 3" %} "Stage 3"{% elif stage.title == "Stage 4" %} "Stage 4"{% endif %}>
+                    <input name="itemAmount1" type="hidden" value={{ valor }}>
+                    <input name="itemQuantity1" type="hidden" value="1">
+                    <input name="itemWeight1" type="hidden" value="1000">
+
+                    <input class="btn btn-lg btn-success" value="pague com pagseguro" type="submit" alt="Pague com Pagseguro" name="submit" src="https://p.simg.uol.com.br/out/pagseguro/i/botoes/pagamentos/120x53-pagar.gif">
+                </form>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-offset-4">
+                    <p><b><span style="color: red;"><i class="fa fa-bookmark"></i> 15</span> Lições</b></p>
+                    <p><b><span style="color: red;"><i class="fa fa-star"></i> 10.0000</span> Exercícios</b></p>
+                    <p><b><span style="color: red;"><i class="fa fa-quote-right"></i> 70</span> Explicações Gramaticais</b></p>
+                    <p><b><span style="color: red;"><i class="fa fa-video-camera"></i> 70</span> Vídeo Aulas</b></p>
+                    <p><b><span style="color: red;"><i class="fa fa-sort-alpha-asc"></i> 6.000</span> Vocabulários</b></p>
+                    <p><b><span style="color: red;"><i class="fa fa-comments"></i> 17.000</span> Perguntas para Conversação</b></p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!--MAIN-->
+{% endblock %}
+{% block js %}
+
+{% endblock %}

@@ -1,0 +1,275 @@
+{% extends 'rotas/base_admin.html' %}
+{% block baradmin %}
+    {% if user.type == "Master" %}
+        <li><a href="/manage/admins"><i class="fa fa-users"></i> Admins</a></li>
+    {% endif %}
+    {% if user.type == "Master" or user.type == "Admin"%}
+        <li><a href="/manage/coordinators"><i class="fa fa-male"></i> Coordinators</a></li>
+        <li><a href="/manage/courses"><i class="fa fa-language"></i> Courses</a></li>
+        <li><a href="/manage/stages"><i class="fa fa-shield"></i> Stages</a></li>
+        <li><a href="/manage/lessons"><i class="fa fa-bookmark"></i> Lessons</a></li>
+    {% endif %}
+    {% if user.type == "Master" or user.type == "Admin" or user.type == "Coordinator"%}
+        <li><a href="/manage/teachers"><i class="fa fa-users"></i> Teachers</a></li>
+        <li><a href="/manage/users"><i class="fa fa-graduation-cap"></i> Students</a></li>
+        <li><a href="/manage/userstages"><i class="fa fa-sitemap"></i> Student x Stages</a></li>
+        <li><a href="/manage/payments"><i class="fa fa-money"></i> Payments</a></li>
+    {% endif %}
+    {% if user.type == "Master" or user.type == "Admin" or user.type == "Teacher" %}
+        <li><a href="/manage/conversations"><i class="fa fa-comments"></i> Conversations</a></li>
+        <li><a href="/manage/grammarspots"><i class="fa fa-quote-right"></i> Grammar Spots</a></li>
+        <li><a href="/manage/videoclasses"><i class="fa fa-video-camera"></i> Video Classes</a></li>
+        <li><a href="/manage/vocabularies"><i class="fa fa-sort-alpha-asc"></i> Vocabularies</a></li>
+        <li><a href="/manage/texts"><i class="fa fa-book"></i> Texts</a></li>
+        <li><a href="/manage/exercises"><i class="fa fa-star"></i> Exercises</a></li>
+        <li><a href="/manage/answers"><i class="fa fa-gavel"></i> Answers</a></li>
+    {% endif %}
+{% endblock %}
+{% block main %}
+    <!--MAIN-->
+    <div class="container-fluid">
+        <div class="row">
+            <h2>Management</h2>
+            <hr/>
+        </div>
+        <div class="row">
+            {% if user.type == "Master" %}
+                <div class="col-md-3">
+                    <div class="panel panel-danger">
+                        <div class="panel-body">
+                            <p align="center">
+                                <span class="fa-stack fa-4x">
+                                    <i class="fa fa-circle fa-stack-2x text-danger"></i>
+                                    <i class="fa fa-users fa-stack-1x fa-inverse"></i>
+                                </span>
+                            <p><h3 align="center">Admins</h3></p>
+                            <p align="center"><a href="/manage/admins" class="btn btn-danger">manage</a></p>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            {% if user.type == "Master" or user.type == "Admin" %}
+                <div class="col-md-3">
+                    <div class="panel panel-danger">
+                        <div class="panel-body">
+                            <p align="center">
+                                <span class="fa-stack fa-4x">
+                                    <i class="fa fa-circle fa-stack-2x text-danger"></i>
+                                    <i class="fa fa-male fa-stack-1x fa-inverse"></i>
+                                </span>
+                            <p><h3 align="center">Coordinators</h3></p>
+                            <p align="center"><a href="/manage/coordinators" class="btn btn-danger">manage</a></p>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            {% if user.type == "Master" or user.type == "Admin" or user.type == "Coordinator" %}
+                <div class="col-md-3">
+                    <div class="panel panel-danger">
+                        <div class="panel-body">
+                            <p align="center">
+                                <span class="fa-stack fa-4x">
+                                    <i class="fa fa-circle fa-stack-2x text-danger"></i>
+                                    <i class="fa fa-users fa-stack-1x fa-inverse"></i>
+                                </span>
+                            <p><h3 align="center">Teachers</h3></p>
+                            <p align="center"><a href="/manage/teachers" class="btn btn-danger">manage</a></p>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            {% if user.type == "Master" or user.type == "Admin" or user.type == "Coordinator" %}
+                <div class="col-md-3">
+                    <div class="panel panel-danger">
+                        <div class="panel-body">
+                            <p align="center">
+                                <span class="fa-stack fa-4x">
+                                    <i class="fa fa-circle fa-stack-2x text-danger"></i>
+                                    <i class="fa fa-graduation-cap fa-stack-1x fa-inverse"></i>
+                                </span>
+                            <p><h3 align="center">Students</h3></p>
+                            <p align="center"><a href="/manage/users" class="btn btn-danger">manage</a></p>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="panel panel-danger">
+                        <div class="panel-body">
+                            <p align="center">
+                                <span class="fa-stack fa-4x">
+                                    <i class="fa fa-circle fa-stack-2x text-danger"></i>
+                                    <i class="fa fa-sitemap fa-stack-1x fa-inverse"></i>
+                                </span>
+                            <p><h3 align="center">Student x Stages</h3></p>
+                            <p align="center"><a href="/manage/userstages" class="btn btn-danger">manage</a></p>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="panel panel-danger">
+                        <div class="panel-body">
+                            <p align="center">
+                                <span class="fa-stack fa-4x">
+                                    <i class="fa fa-circle fa-stack-2x text-danger"></i>
+                                    <i class="fa fa-money fa-stack-1x fa-inverse"></i>
+                                </span>
+                            <p><h3 align="center">Payments</h3></p>
+                            <p align="center"><a href="/manage/payments" class="btn btn-danger">manage</a></p>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            {% if user.type == "Master" or user.type == "Admin" %}
+                <div class="col-md-3">
+                    <div class="panel panel-danger">
+                        <div class="panel-body">
+                            <p align="center">
+                                <span class="fa-stack fa-4x">
+                                    <i class="fa fa-circle fa-stack-2x text-danger"></i>
+                                    <i class="fa fa-language fa-stack-1x fa-inverse"></i>
+                                </span>
+                            <p><h3 align="center">Courses</h3></p>
+                            <p align="center"><a href="/manage/courses" class="btn btn-danger">manage</a></p>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="panel panel-danger">
+                        <div class="panel-body">
+                            <p align="center">
+                                <span class="fa-stack fa-4x">
+                                    <i class="fa fa-circle fa-stack-2x text-danger"></i>
+                                    <i class="fa fa-shield fa-stack-1x fa-inverse"></i>
+                                </span>
+                            <p><h3 align="center">Stages</h3></p>
+                            <p align="center"><a href="/manage/stages" class="btn btn-danger">manage</a></p>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="panel panel-danger">
+                        <div class="panel-body">
+                            <p align="center">
+                                <span class="fa-stack fa-4x">
+                                    <i class="fa fa-circle fa-stack-2x text-danger"></i>
+                                    <i class="fa fa-bookmark fa-stack-1x fa-inverse"></i>
+                                </span>
+                            <p><h3 align="center">Lessons</h3></p>
+                            <p align="center"><a href="/manage/lessons" class="btn btn-danger">manage</a></p>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            {% if user.type == "Master" or user.type == "Admin" or user.type == "Teacher" %}
+                <div class="col-md-3">
+                    <div class="panel panel-danger">
+                        <div class="panel-body">
+                            <p align="center">
+                                <span class="fa-stack fa-4x">
+                                    <i class="fa fa-circle fa-stack-2x text-danger"></i>
+                                    <i class="fa fa-comments fa-stack-1x fa-inverse"></i>
+                                </span>
+                            <p><h3 align="center">Conversations</h3></p>
+                            <p align="center"><a href="/manage/conversations" class="btn btn-danger">manage</a></p>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="panel panel-danger">
+                        <div class="panel-body">
+                            <p align="center">
+                                <span class="fa-stack fa-4x">
+                                    <i class="fa fa-circle fa-stack-2x text-danger"></i>
+                                    <i class="fa fa-quote-right fa-stack-1x fa-inverse"></i>
+                                </span>
+                            <p><h3 align="center">Grammar Spots</h3></p>
+                            <p align="center"><a href="/manage/grammarspots" class="btn btn-danger">manage</a></p>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="panel panel-danger">
+                        <div class="panel-body">
+                            <p align="center">
+                                <span class="fa-stack fa-4x">
+                                    <i class="fa fa-circle fa-stack-2x text-danger"></i>
+                                    <i class="fa fa-video-camera fa-stack-1x fa-inverse"></i>
+                                </span>
+                            <p><h3 align="center">Video Classes</h3></p>
+                            <p align="center"><a href="/manage/videoclasses" class="btn btn-danger">manage</a></p>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="panel panel-danger">
+                        <div class="panel-body">
+                            <p align="center">
+                                <span class="fa-stack fa-4x">
+                                    <i class="fa fa-circle fa-stack-2x text-danger"></i>
+                                    <i class="fa fa-sort-alpha-asc fa-stack-1x fa-inverse"></i>
+                                </span>
+                            <p><h3 align="center">Vocabularies</h3></p>
+                            <p align="center"><a href="/manage/vocabularies" class="btn btn-danger">manage</a></p>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="panel panel-danger">
+                        <div class="panel-body">
+                            <p align="center">
+                                <span class="fa-stack fa-4x">
+                                    <i class="fa fa-circle fa-stack-2x text-danger"></i>
+                                    <i class="fa fa-book fa-stack-1x fa-inverse"></i>
+                                </span>
+                            <p><h3 align="center">Texts</h3></p>
+                            <p align="center"><a href="/manage/texts" class="btn btn-danger">manage</a></p>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="panel panel-danger">
+                        <div class="panel-body">
+                            <p align="center">
+                                <span class="fa-stack fa-4x">
+                                    <i class="fa fa-circle fa-stack-2x text-danger"></i>
+                                    <i class="fa fa-star fa-stack-1x fa-inverse"></i>
+                                </span>
+                            <p><h3 align="center">Exercises</h3></p>
+                            <p align="center"><a href="/manage/exercises" class="btn btn-danger">manage</a></p>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="panel panel-danger">
+                        <div class="panel-body">
+                            <p align="center">
+                                <span class="fa-stack fa-4x">
+                                    <i class="fa fa-circle fa-stack-2x text-danger"></i>
+                                    <i class="fa fa-gavel fa-stack-1x fa-inverse"></i>
+                                </span>
+                            <p><h3 align="center">Answers</h3></p>
+                            <p align="center"><a href="/manage/answers" class="btn btn-danger">manage</a></p>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <!--MAIN-->
+{% endblock %}

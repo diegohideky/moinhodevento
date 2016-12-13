@@ -1,0 +1,56 @@
+{% extends 'rotas/base_user.html' %}
+{% block navbar %}
+{% endblock %}
+{% block main %}
+    <!--MAIN-->
+    <br>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8 text-center section col-md-offset-2">
+                <div class="form-group">
+                    <p align="center"><img src="/static/img/icon/playa.png" class="img img-responsive icone-block" alt=""></p>
+                </div>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped active" role="progressbar"
+                            aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                        <span id="progresso">0%</span>
+                    </div>
+                </div>
+                <div id="quest" class="text-left col-md-offset-2">
+                    <div class="form-group">
+                        <h1><strong><span id="n">1</span>. Escolha a alternativa correta</strong></h1>
+                    </div>
+                    <div class="form-group">
+                        <div class="radio">
+                            <input type="radio" name="radio"><h4><strong><span id="alt1">aaa</span></strong></h4>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="radio">
+                            <input type="radio" name="radio"><h4><strong><span id="alt2">bbb</span></strong></h4>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="radio">
+                            <input type="radio" name="radio"><h4><strong><span id="alt3">ccc</span></strong></h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" id="confirmar">
+                    <button class="btn btn-lg btn-success" onclick="check_alternativa()">confirmar</button>
+                </div>
+                <div id="result" class="text-center hidden">
+                    <h2>Obrigado pela sua participacao.</h2>
+                    <h3>Seu resultado foi:</h3>
+                    <h1 style="font-size: 100px;"><span id="resultado"></span></h1>
+                    <div class="form-group" id="confirmar">
+                        <a href="/" class="btn btn-lg btn-primary">concluir</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--MAIN-->
+{% endblock %}

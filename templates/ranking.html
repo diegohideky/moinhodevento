@@ -1,0 +1,93 @@
+{% if user.type == "Student" %}
+{% extends 'rotas/base_user.html' %}
+{% else %}
+{% extends 'rotas/base_admin.html' %}
+    {% block baradmin %}
+        {% if user.type == "Master" %}
+            <li><a href="/manage/admins"><i class="fa fa-users"></i> Admins</a></li>
+        {% endif %}
+        {% if user.type == "Master" or user.type == "Admin"%}
+            <li><a href="/manage/coordinators"><i class="fa fa-male"></i> Coordinators</a></li>
+        {% endif %}
+        {% if user.type == "Master" or user.type == "Admin" or user.type == "Coordinator" %}
+            <li><a href="/manage/secretaries"><i class="fa fa-street-view"></i> Secretaries</a></li>
+        {% endif %}
+    {% endblock %}
+    {% block barnav %}
+        {% if user.type == "Master" or user.type == "Admin"%}
+        <li><a href="/manage/stages"><i class="fa fa-shield"></i> Stages</a></li>
+        <li><a href="/manage/lessons"><i class="fa fa-bookmark"></i> Lessons</a></li>
+        <li><a href="/manage/conversations"><i class="fa fa-comments"></i> Conversations</a></li>
+        <li><a href="/manage/grammarspots"><i class="fa fa-quote-right"></i> Grammar Spots</a></li>
+        <li><a href="/manage/videoclasses"><i class="fa fa-video-camera"></i> Video Classes</a></li>
+        <li><a href="/manage/vocabularies"><i class="fa fa-sort-alpha-asc"></i> Vocabularies</a></li>
+        <li><a href="/manage/texts"><i class="fa fa-book"></i> Texts</a></li>
+        <li><a href="/manage/exercises"><i class="fa fa-star"></i> Exercises</a></li>
+        <li><a href="/manage/answers"><i class="fa fa-gavel"></i> Answers</a></li>
+        {% endif %}
+    {% endblock %}
+{% endif %}
+{% block main %}
+    <!--MAIN-->
+    <div class="container-fluid section col-md-12" id="page">
+        <div class="row">
+            <p align="center"><img src="/static/img/icon/ranking.png" class="img img-responsive icone-small" alt=""></p>
+            <hr/>
+        </div>
+        <div class="row fit">
+            <div class="col-md-12">
+            <br>
+                <div class="row">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Top</th>
+                                <th>Student</th>
+                                <th>Score</th>
+                                <th>Level</th>
+                                <th>Bio</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% set x = active * 10 - 10 + 1 %}
+                        {% for ranking in rankings %}
+                            <tr method="post">
+                                <th>{{ x }}</th>
+                                <td>{{ ranking['user'] }}</td>
+                                <th>{{ ranking['total'] }}</th>
+                                <th>{{ ranking['level'] }}</th>
+                                <th><img src="/static/img/icon/bio.png" class="img img-responsive icone-btn" onclick="href('/bio/{{ ranking['id'] }}/English')"></th>
+                            </tr>
+                            {% set x = x + 1 %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <input type="text" class="hidden" id="active" value="{{ active }}"/>
+                <input type="text" class="hidden" id="countpage" value="{{ pages }}"/>
+                <input type="text" class="hidden" id="url" value="/ranking"/>
+                {% if pages > 1 %}
+                <div class="row">
+                    <ul class="pagination">
+                        {% if active > 1 %}<li><a href="/ranking/1" title="First"><i class="fa fa-angle-double-left"></i></a></li>
+                        <li><a href="/ranking/{{ active - 1 }}" title="Previous"><i class="fa fa-angle-left"></i></a></li>{% endif %}
+                        {% for i in range(index, index + 10) %}
+                            {% if i <= pages %}
+                            <li  class="{% if active == i %}active{% endif %}">
+                                <a href="/ranking/{{ i }}">{{ i }}</a>
+                            </li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if active < pages %}<li><a href="/ranking/{{ active + 1 }}" title="Next"><i class="fa fa-angle-right"></i></a></li>
+                        <li><a href="/ranking/{{ pages }}" title="Last"><i class="fa fa-angle-double-right"></i></a></li>{% endif %}
+                    </ul>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <!--MAIN-->
+{% endblock %}
+{% block js %}
+
+{% endblock %}

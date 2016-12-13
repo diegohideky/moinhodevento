@@ -1,0 +1,33 @@
+{% extends 'rotas/base_user.html' %}
+{% block navbar %}
+{% endblock %}
+{% block main %}
+    <!--MAIN-->
+    <br>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 text-center section col-md-offset-3">
+                <form action="/teste/verificado" method="post">
+                    {% if erro %}
+                        <ul class="list-group">
+                            <li class="list-group-item list-group-item-danger"><strong>Desculpa!</strong> {{ erro }}</li>
+                        </ul>
+                    {% endif %}
+                    <div class="form-group">
+                        <p align="center"><img src="/static/img/icon/playa.png" class="img img-responsive icone-block" alt=""></p>
+                    </div>
+                    <div class="form-group">
+                        <h1><strong>Teste seu Inglês</strong></h1>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control input-lg" placeholder="INSIRA SEU CÓDIGO *" name="code" id="code" autofocus>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-lg btn-danger" value="INICIAR"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--MAIN-->
+{% endblock %}

@@ -1,0 +1,136 @@
+{% extends 'rotas/base_admin.html' %}
+{% block baradmin %}
+    {% if user.type == "Master" %}
+        <li><a href="/manage/admins"><i class="fa fa-users"></i> Admins</a></li>
+    {% endif %}
+    {% if user.type == "Master" or user.type == "Admin"%}
+        <li><a href="/manage/coordinators"><i class="fa fa-male"></i> Coordinators</a></li>
+    {% endif %}
+    {% if user.type == "Master" or user.type == "Admin" or user.type == "Coordinator" %}
+        <li><a href="/manage/secretaries"><i class="fa fa-street-view"></i> Secretaries</a></li>
+    {% endif %}
+{% endblock %}
+{% block barnav %}
+    {% if user.type == "Master" or user.type == "Admin"%}
+    <li><a href="/manage/stages"><i class="fa fa-shield"></i> Stages</a></li>
+    <li><a href="/manage/lessons"><i class="fa fa-bookmark"></i> Lessons</a></li>
+    <li><a href="/manage/conversations"><i class="fa fa-comments"></i> Conversations</a></li>
+    <li><a href="/manage/grammarspots"><i class="fa fa-quote-right"></i> Grammar Spots</a></li>
+    <li><a href="/manage/videoclasses"><i class="fa fa-video-camera"></i> Video Classes</a></li>
+    <li><a href="/manage/vocabularies"><i class="fa fa-sort-alpha-asc"></i> Vocabularies</a></li>
+    <li><a href="/manage/texts"><i class="fa fa-book"></i> Texts</a></li>
+    <li><a href="/manage/exercises"><i class="fa fa-star"></i> Exercises</a></li>
+    <li><a href="/manage/answers"><i class="fa fa-gavel"></i> Answers</a></li>
+    {% endif %}
+{% endblock %}
+{% block main %}
+    <!--MAIN-->
+    <div class="container-fluid">
+        <div class="row">
+            <h2><i class="fa fa-graduation-cap fa-2x"></i> Students</h2>
+            <hr/>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <a href="/user/new" class="btn btn-primary"><i class="fa fa-plus"></i> Student</a>
+                    <a href="/manage/users" class="btn btn-success"><i class="fa fa-refresh"></i> Students</a>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-3-sm">
+                        <form action="/user/search">
+                            <input type="text" class="form-control input" placeholder="Search by username, email, name, rg or cpf" name="search">
+                        </form>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                {% if user.type == "Master" or user.type == "Admin" %}<th></th>{% endif %}
+                                {% if user.type == "Master" %}<th></th>{% endif %}
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for student in users %}
+                            <tr method="post">
+                                <td>{{ student.id }}</td>
+                                <td>{{ student.username }}</td>
+                                <td>{{ student.email }}</td>
+                                {% if user.type == "Master" or user.type == "Admin" %}
+                                <td>
+                                    <a href="/user/edit/{{ student.id }}" class="btn btn-sm btn-warning" name="edit" title="Edit">
+                                         <i class="fa fa-edit"></i>
+                                    </a>
+                                </td>
+                                {% endif %}
+                                {% if user.type == "Master"%}
+                                <td>
+                                    <a class="btn btn-sm btn-danger" name="delete" id="delete{{ student.id }}" title="Delete" onclick="review({{ student.id }})">
+                                         <i class="fa fa-trash"></i>
+                                    </a>
+                                    <a class="btn btn-sm btn-success hidden" title="Confirm" id="confirm{{ student.id }}" onclick="confirm('/user/delete/{{ student.id }}')">
+                                        <i class="fa fa-check"></i>
+                                    </a>
+                                    <a class="btn btn-sm btn-primary hidden" title="Cancel" id="cancel{{ student.id }}" onclick="cancel({{ student.id }})">
+                                        <i class="fa fa-remove"></i>
+                                    </a>
+                                </td>
+                                {% endif %}
+                                <td>
+                                    <a href="/userstage/new/{{ student.id }}" class="btn btn-sm btn-primary" name="newstage" title="Add Stage">
+                                        <i class="fa fa-sitemap"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="/payment/new/{{ student.id }}" class="btn btn-sm btn-success" name="payment" title="Add Payment">
+                                        <i class="fa fa-money"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="/student/exercisesdone/{{ student.id }}" class="btn btn-sm btn-info" name="status" title="Status">
+                                        <i class="fa fa-line-chart"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="/student/user_setting/profile/{{ student.id }}" class="btn btn-sm btn-default" name="profile" title="Profile">
+                                        <i class="fa fa-user-plus"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% if pages and pages > 1 %}
+                <div class="row">
+                    <ul class="pagination">
+                        {% if active > 1 %}<li><a href="/manage/users/1" title="First"><i class="fa fa-angle-double-left"></i></a></li>
+                        <li><a href="/manage/users/{{ active - 1 }}" title="Previous"><i class="fa fa-angle-left"></i></a></li>{% endif %}
+                        {% for i in range( index, index + 10) %}
+                            {% if i <= pages %}
+                            <li  class="{% if active == i %}active{% endif %}">
+                                <a href="/manage/users/{{ i }}">{{ i }}</a>
+                            </li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if active < pages %}<li><a href="/manage/users/{{ active + 1 }}" title="Next"><i class="fa fa-angle-right"></i></a></li>
+                        <li><a href="/manage/users/{{ pages }}" title="Last"><i class="fa fa-angle-double-right"></i></a></li>{% endif %}
+                    </ul>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <!--MAIN-->
+{% endblock %}
+{% block js %}
+
+{% endblock %}

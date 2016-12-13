@@ -1,0 +1,191 @@
+{% if user.type == "Student" %}
+{% extends 'rotas/base_user.html' %}
+{% else %}
+{% extends 'rotas/base_admin.html' %}
+    {% block baradmin %}
+        {% if user.type == "Master" %}
+            <li><a href="/manage/admins"><i class="fa fa-users"></i> Admins</a></li>
+        {% endif %}
+        {% if user.type == "Master" or user.type == "Admin"%}
+            <li><a href="/manage/coordinators"><i class="fa fa-male"></i> Coordinators</a></li>
+        {% endif %}
+        {% if user.type == "Master" or user.type == "Admin" or user.type == "Coordinator" %}
+            <li><a href="/manage/secretaries"><i class="fa fa-street-view"></i> Secretaries</a></li>
+        {% endif %}
+    {% endblock %}
+    {% block barnav %}
+        {% if user.type == "Master" or user.type == "Admin"%}
+        <li><a href="/manage/stages"><i class="fa fa-shield"></i> Stages</a></li>
+        <li><a href="/manage/lessons"><i class="fa fa-bookmark"></i> Lessons</a></li>
+        <li><a href="/manage/conversations"><i class="fa fa-comments"></i> Conversations</a></li>
+        <li><a href="/manage/grammarspots"><i class="fa fa-quote-right"></i> Grammar Spots</a></li>
+        <li><a href="/manage/videoclasses"><i class="fa fa-video-camera"></i> Video Classes</a></li>
+        <li><a href="/manage/vocabularies"><i class="fa fa-sort-alpha-asc"></i> Vocabularies</a></li>
+        <li><a href="/manage/texts"><i class="fa fa-book"></i> Texts</a></li>
+        <li><a href="/manage/exercises"><i class="fa fa-star"></i> Exercises</a></li>
+        <li><a href="/manage/answers"><i class="fa fa-gavel"></i> Answers</a></li>
+        {% endif %}
+    {% endblock %}
+{% endif %}
+
+{% block chart %}
+    <script type="text/javascript">
+        window.onload = function () {
+            var chart = new CanvasJS.Chart("chartContainer", {
+                theme: "theme2",
+                title: {
+                    text: "Exercises Done - This Week"
+                },
+                animationEnabled: true,
+                axisX: {
+                    valueFormatString: "DD/MMM",
+                    interval: 1,
+                    intervalType: "day"
+
+                },
+                axisY: {
+                    includeZero: false
+
+                },
+                data: [
+                    {
+                        type: "line",
+                        lineThickness: 3,
+                        dataPoints: [
+                            {% for ex in exs %}
+                                {
+                                    x: new Date({{ ex["year"] }}, {{ ex["month"] }}, {{ ex["day"] }}), y: {{ ex["value"] }}
+                                    {% if  ex["type"] == "highest" %}
+                                        , indexLabel: "highest", markerColor: "red", markerType: "triangle"
+                                    {% elif ex["type"] == "lowest" %}
+                                        , indexLabel: "lowest", markerColor: "DarkSlateGrey", markerType: "cross"
+                                    {% endif %}
+                                },
+                            {% endfor %}
+                        ]
+                    }
+                ]
+            });
+
+            var chart2 = new CanvasJS.Chart("chartContainer2",
+            {
+                animationEnabled: true,
+
+                title:{
+                    text: "Exercises Comparison - This Week"
+                },
+
+                axisX:{
+                    valueFormatString: "DD/MMM",
+                    interval: 1,
+                    intervalType: "day"
+                },
+
+                axisY: {
+                    includeZero: false
+                },
+
+                data: [
+                    {
+                        type: "spline",
+                        lineThickness: 3,
+                        showInLegend: true,
+                        name: 'Listening',
+                        dataPoints: [
+                            {% for com in compare %}
+                                { x: new Date({{ com["year"] }}, {{ com["month"] }}, {{ com["day"] }}), y: {{ com["listening"] }} },
+                            {% endfor %}
+                        ]
+                    },
+                    {
+                        type: "spline",
+                        lineThickness: 3,
+                        showInLegend: true,
+                        name: 'Reading',
+                        dataPoints: [
+                            {% for com in compare %}
+                                { x: new Date({{ com["year"] }}, {{ com["month"] }}, {{ com["day"] }}), y: {{ com["reading"] }} },
+                            {% endfor %}
+                        ]
+                    },
+                    {
+                        type: "spline",
+                        lineThickness: 3,
+                        showInLegend: true,
+                        name: 'Speaking',
+                        dataPoints: [
+                            {% for com in compare %}
+                                { x: new Date({{ com["year"] }}, {{ com["month"] }}, {{ com["day"] }}), y: {{ com["speaking"] }} },
+                            {% endfor %}
+                        ]
+                    },
+                    {
+                        type: "spline",
+                        lineThickness: 3,
+                        showInLegend: true,
+                        name: 'Writing',
+                        dataPoints: [
+                            {% for com in compare %}
+                                { x: new Date({{ com["year"] }}, {{ com["month"] }}, {{ com["day"] }}), y: {{ com["writing"] }} },
+                            {% endfor %}
+                        ]
+                    }
+                ],
+
+                legend: {
+                    cursor: "pointer",
+                    itemclick: function (e) {
+                        if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                            e.dataSeries.visible = false;
+                        } else {
+                            e.dataSeries.visible = true;
+                        }
+                        chart2.render();
+                    }
+                }
+            });
+
+            chart2.render();
+            chart2.render();
+
+            chart.render();
+            chart.render();
+        }
+    </script>
+    <script type="text/javascript" src="/static/js/canvasjs.min.js"></script>
+{% endblock %}
+
+{% block main %}
+    <!--MAIN-->
+    <div class="container-fluid section">
+        <div class="row fit">
+            <p align="center"><img src="/static/img/icon/status.png" class="img img-responsive icone-small" alt=""></p>
+            <hr/>
+        </div>
+        <div class="row fit text-center">
+            <div class="btn-group">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                    Graphics <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="/exercisesdone">General</a></li>
+                    <li><a href="/exercisesdone/week">Week</a></li>
+                    <li><a href="/exercisesdone/month">Month</a></li>
+                    <li><a href="/exercisesdone/year">Year</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-offset-1" id="chartContainer" style="height: 300px; width: 85%;"></div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-offset-1" id="chartContainer2" style="height: 300px; width: 85%;"></div>
+        </div>
+    </div>
+    <!--MAIN-->
+{% endblock %}
+{% block js %}
+
+{% endblock %}

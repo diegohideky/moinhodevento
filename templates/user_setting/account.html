@@ -1,0 +1,78 @@
+{% if user.type == "Student"%}{% extends 'rotas/base_user.html' %}
+{% else %}
+    {% extends 'rotas/base_admin.html' %}
+    {% block baradmin %}
+        {% if user.type == "Master" %}
+            <li><a href="/manage/admins"><i class="fa fa-users"></i> Admins</a></li>
+        {% endif %}
+        {% if user.type == "Master" or user.type == "Admin"%}
+            <li><a href="/manage/coordinators"><i class="fa fa-male"></i> Coordinators</a></li>
+        {% endif %}
+        {% if user.type == "Master" or user.type == "Admin" or user.type == "Coordinator" %}
+            <li><a href="/manage/secretaries"><i class="fa fa-street-view"></i> Secretaries</a></li>
+        {% endif %}
+    {% endblock %}
+    {% block barnav %}
+        {% if user.type == "Master" or user.type == "Admin"%}
+        <li><a href="/manage/stages"><i class="fa fa-shield"></i> Stages</a></li>
+        <li><a href="/manage/lessons"><i class="fa fa-bookmark"></i> Lessons</a></li>
+        <li><a href="/manage/conversations"><i class="fa fa-comments"></i> Conversations</a></li>
+        <li><a href="/manage/grammarspots"><i class="fa fa-quote-right"></i> Grammar Spots</a></li>
+        <li><a href="/manage/videoclasses"><i class="fa fa-video-camera"></i> Video Classes</a></li>
+        <li><a href="/manage/vocabularies"><i class="fa fa-sort-alpha-asc"></i> Vocabularies</a></li>
+        <li><a href="/manage/texts"><i class="fa fa-book"></i> Texts</a></li>
+        <li><a href="/manage/exercises"><i class="fa fa-star"></i> Exercises</a></li>
+        <li><a href="/manage/answers"><i class="fa fa-gavel"></i> Answers</a></li>
+        {% endif %}
+    {% endblock %}
+{% endif %}
+{% block main %}
+    <!--MAIN-->
+    <div class="container-fluid">
+        <div class="col-md-8 col-md-offset-2 section">
+            <div class="row">
+                <p align="center"><img src="/static/img/icon/{{ user.avatar }}.png" id="avatar" class="img img-responsive icone-block" alt=""></p>
+                <hr/>
+            </div>
+            <div class="row">
+                <div class="col-md-12 fit">
+                    <form action="/update_user" method="post">
+                        <p><input type="text" class="form-control input-lg" placeholder="Username" name="username" value="{{ user.username }}" autofocus></p>
+                        <p><input type="text" class="form-control input-lg" placeholder="Email" name="email" value="{{ user.email }}"></p>
+                        <p>
+                            <select name="avatar" id="select_avatar" class="form-control input-lg" onchange="show_avatar()">
+                                <option>Choose your avatar</option>
+                                {% for avatar in avatars %}
+                                    {% if avatar == user.avatar %}
+                                        <option selected="selected">{{ avatar }}</option>
+                                    {% else %}
+                                        <option>{{ avatar }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </p>
+                        <p align="center"><button class="btn btn-success btn-lg" type="submit"><i class="fa fa-check"> </i> Save</button></p>
+                    </form>
+                    {% if success%}
+                        <ul class="list-group">
+                            <li class="list-group-item list-group-item-success">{{ success }}</li>
+                        </ul>
+                    {% endif %}
+                    {% if e_username %}
+                        <ul class="list-group">
+                            <li class="list-group-item list-group-item-danger">{{ e_username }}</li>
+                        </ul>
+                    {% endif %}
+                    {% if e_email %}
+                        <ul class="list-group">
+                            <li class="list-group-item list-group-item-danger">{{ e_email }}</li>
+                        </ul>
+                    {% endif %}
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--MAIN-->
+{% endblock %}

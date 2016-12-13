@@ -1,0 +1,105 @@
+{% extends 'rotas/base_user.html' %}
+{% block main %}
+    <!--MAIN-->
+    <div class="container-fluid section page" id="page">
+        <div class="row">
+            <p align="center"><img src="/static/img/icon/conversation.png" class="img img-responsive icone-small" alt=""></p>
+            <hr/>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <a class="btn btn-primary" onclick="search_conversation()"><i class="fa fa-search"></i> Search</a>
+                <a href="/conversations" class="btn btn-success"><i class="fa fa-refresh"></i> Questions</a>
+            </div>
+        </div>
+        <br>
+        <div class="row hidden" id="search_user">
+            <div class="col-md-4">
+                <form action="/conversations/search_user">
+                    <input type="text" placeholder="Search by username, email or name" name="search" class="form-control input">
+                </form>
+            </div>
+        </div>
+        <br>
+        <div class="row hidden" id="search_lesson">
+            <div class="col-md-4">
+                <p>
+                    <select class="form-control" name="lesson" id="lesson" onchange="conversation_lesson()">
+                        <option>Choose the lesson</option>
+                        {% for lesson in lessons %}
+                            <option>{{ lesson }}</option>
+                        {% endfor %}
+                    </select>
+                </p>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-12 fit">
+                <div class="row">
+                    <table class="table table-hover">
+                    {% if users %}
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in users %}
+                                <tr>
+                                    <td><h4>{{ user.username }}</h4></td>
+                                    <td><h4>{{ user.email }}</h4></td>
+                                    <td><a href="/conversations/user/{{ user.id }}" class="btn btn-circle btn-lg btn-primary"><i class="fa fa-comments"></i></a></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    {% else %}
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Question</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% set x = active * 10 - 10 + 1 %}
+                        {% for conversation in conversations %}
+                            <tr method="post">
+                                <td><h3>{{ x }}</h3></td>
+                                <td><h3>{{ conversation.question }}</h3></td>
+                            </tr>
+                            {% set x = x + 1 %}
+                        {% endfor %}
+                        </tbody>
+                    {% endif %}
+                    </table>
+                </div>
+                <input type="text" class="hidden" id="active" value="{{ active }}"/>
+                <input type="text" class="hidden" id="countpage" value="{{ pages }}"/>
+                <input type="text" class="hidden" id="url" value="/conversations"/>
+                {% if pages and pages > 1 %}
+                <div class="row text-center">
+                    <ul class="pagination">
+                        {% if active > 1 %}<li><a href="/conversations/1" title="First"><i class="fa fa-angle-double-left"></i></a></li>
+                        <li><a href="/conversations/{{ active - 1 }}" title="Previous"><i class="fa fa-angle-left"></i></a></li>{% endif %}
+                        {% for i in range( index, index + 10) %}
+                            {% if i <= pages %}
+                            <li  class="{% if active == i %}active{% endif %}">
+                                <a href="/conversations/{{ i }}">{{ i }}</a>
+                            </li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if active < pages %}<li><a href="/conversations/{{ active + 1 }}" title="Next"><i class="fa fa-angle-right"></i></a></li>
+                        <li><a href="/conversations/{{ pages }}" title="Last"><i class="fa fa-angle-double-right"></i></a></li>{% endif %}
+                    </ul>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <!--MAIN-->
+{% endblock %}
+{% block js %}
+
+{% endblock %}
